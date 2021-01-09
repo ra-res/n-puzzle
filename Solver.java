@@ -52,8 +52,7 @@ public class Solver {
      * @param output - where output should be directed
      */
     public void UniformCostSolve(PrintWriter output) {
-        if (rootNode.state.isSolvable()) // checks to see if gamestate is not solvable
-        {
+        if (rootNode.state.isSolvable()) {
             output.println("No solution found");
             return;
         }
@@ -68,10 +67,8 @@ public class Solver {
             }
             expanded.add(n); // Adds node to expanded
             ArrayList<GameState> moveList = n.state.possibleMoves(); // Expands node and generates all possible moves
-            for (GameState gs : moveList) // Loops through every possible move
-            {
-                if ((Node.findNodeWithState(unexpanded, gs) == null) && (Node.findNodeWithState(expanded, gs) == null)) //Check to see if state already been visited
-                {
+            for (GameState gs : moveList) {
+                if ((Node.findNodeWithState(unexpanded, gs) == null) && (Node.findNodeWithState(expanded, gs) == null)) {
                     Node newNode = new Node(gs, n, n.getCost() + 1, 0); // Generates new node, increments cost++
                     unexpanded.add(newNode); // Adds new node to unexpanded
                 }
@@ -87,8 +84,7 @@ public class Solver {
      * @param output - where output should be directed
      */
     public void AStarSolve(PrintWriter output) {
-        if (rootNode.state.isSolvable()) // checks to see if gamestate is not solvable
-        {
+        if (rootNode.state.isSolvable()) {
             output.println("No solution found");
             return;
         }
@@ -103,10 +99,8 @@ public class Solver {
             }
             expanded.add(n); // Adds node to expanded
             ArrayList<GameState> moveList = n.state.possibleMoves(); // Generates possible moves from n.state
-            for (GameState gs : moveList) // For loop through every possible move
-            {
-                if ((Node.findNodeWithState(unexpanded, gs) == null) && (Node.findNodeWithState(expanded, gs) == null)) // Checks to see if move already visited
-                {
+            for (GameState gs : moveList) {
+                if ((Node.findNodeWithState(unexpanded, gs) == null) && (Node.findNodeWithState(expanded, gs) == null)) {
                     heuristic = gs.calculateHeuristic(); //Gets heuristic for current possible move
                     Node newNode = new Node(gs, n, n.getCost() + 1, heuristic); // Creates new node
                     unexpanded.add(newNode); // Adds new node to unexpanded
