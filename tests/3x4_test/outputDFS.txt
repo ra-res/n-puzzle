@@ -1,0 +1,8 @@
+Solution found!
+[[1, 2, 3, 4], [5, 6, 0, 8], [9, 10, 7, 11]] cost: 0 heuristic:0
+[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 0, 11]] cost: 1 heuristic:0
+[[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 0]] cost: 2 heuristic:0
+2 Moves
+Nodes expanded: 2
+Nodes unexpanded: 4
+

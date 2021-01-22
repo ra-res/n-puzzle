@@ -1,3 +1,5 @@
+package src;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,7 +31,6 @@ public class GameState {
     private final int[][] board;
     public static int SIZE;
     static int[][] INITIAL_BOARD;
-    //    static final int[][] GOAL_BOARD = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
     public int[][] GOAL_BOARD;
 
     /**
@@ -48,6 +49,7 @@ public class GameState {
      *
      * @return a new cloned GameState
      */
+    // Code from AI ASSIGNMENT
     @Override
     public GameState clone() {
         final int[][] clonedBoard = new int[this.board.length][this.board[0].length];
@@ -62,6 +64,7 @@ public class GameState {
      *
      * @return toString returns the board configuration of the current GameState as a printable string.
      */
+    // Code from AI ASSIGNMENT
     @Override
     public String toString() {
         return Arrays.deepToString(this.board);
@@ -72,6 +75,7 @@ public class GameState {
      *
      * @return true if and only if the board configuration of the current GameState is the goal configuration.
      */
+    // Code from AI ASSIGNMENT
     public boolean isGoal() {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
@@ -89,6 +93,7 @@ public class GameState {
      *
      * @return true if number of inversions is even, false if number of inversions is odd.
      */
+    // Code from AI ASSIGNMENT
     public boolean isSolvable() {
         int inversions = 0;
         for (int i = 0; i < this.board.length - 1; i++) {
@@ -108,6 +113,7 @@ public class GameState {
      * @param gs - GameState to compare this.board to gs.board
      * @return true if and only if the GameState supplied as argument has the same board
      */
+    // Code from AI ASSIGNMENT
     public boolean sameBoard(final GameState gs) {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
@@ -124,6 +130,7 @@ public class GameState {
      *
      * @return the board corresponding to the object
      */
+    // Code from AI ASSIGNMENT
     public int[][] getBoard() {
         return this.board;
     }
@@ -136,6 +143,7 @@ public class GameState {
      * @param x - index corresponding to row
      * @param y - index corresponding to col
      */
+    // Code from AI ASSIGNMENT
     public void swap(final int i, final int j, final int x, final int y) {
         final int temp = this.board[i][j];
         this.board[i][j] = this.board[x][y];
@@ -147,6 +155,7 @@ public class GameState {
      *
      * @return estimated distance to goal state
      */
+    // Code from AI ASSIGNMENT
     public int calculateHeuristic() {
         int distance = 0;
         for (int i = 0; i < this.board.length; i++) {
@@ -161,6 +170,7 @@ public class GameState {
         return distance;
     }
 
+    // Code from AI ASSIGNMENT
     public int differentHeuristic() {
         int distance = 0;
         for (int i = 0; i < this.board.length; i++) {
@@ -179,6 +189,7 @@ public class GameState {
      *
      * @return list of all GameStates that can be reached in a single move from the current GameState.
      */
+    // Code from AI ASSIGNMENT
     public ArrayList<GameState> possibleMoves() {
         final ArrayList<GameState> moves = new ArrayList<GameState>();
         final HashMap<String, Integer[]> potentialMoves = new HashMap<>();
@@ -191,7 +202,7 @@ public class GameState {
                 potentialMoves.put("NORTH", new Integer[]{i - 1, j});
                 for (final Integer[] dir : potentialMoves.values()) {
                     if (dir[0] >= 0 && dir[1] >= 0 && dir[0] < this.board.length && dir[1] < this.board[0].length && this.board[dir[0]][dir[1]] == 0) {
-                        final GameState newState = this.clone();
+                        GameState newState = this.clone();
                         newState.swap(i, j, dir[0], dir[1]);
                         moves.add(newState);
                     }
@@ -200,6 +211,5 @@ public class GameState {
         }
         return moves;
     }
-
 }
 

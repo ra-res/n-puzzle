@@ -1,15 +1,18 @@
+package src;
+
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
+
 
 /**
  * Solver is a class that contains the methods used to search for and print solutions
  * plus the data structures needed for the search.
  */
-
 public class Solver {
-
+    // Code from AI ASSIGNMENT
     ArrayList<Node> unexpanded = new ArrayList<>();
     ArrayList<Node> expanded = new ArrayList<>();
     Node rootNode;
@@ -21,6 +24,7 @@ public class Solver {
      *
      * @param initialBoard
      */
+    // Code from AI ASSIGNMENT
     public Solver(int[][] initialBoard) {
         GameState initialState = new GameState(initialBoard);
         this.rootNode = new Node(initialState);
@@ -34,6 +38,7 @@ public class Solver {
      * so adding it won't change the outcome.
      * Method can be used for both uniform cost search and a* search
      */
+    // Code from AI ASSIGNMENT
     public Node getLowest() {
         Node n = this.unexpanded.get(0);
         for (final Node node : this.unexpanded) {
@@ -50,14 +55,18 @@ public class Solver {
      *
      * @param output - where output should be directed
      */
+    // Code from AI ASSIGNMENT
     public void UniformCostSolve(final PrintWriter output) {
         this.unexpanded.add(this.rootNode);
         while (!this.unexpanded.isEmpty()) {
             Node n = this.getLowest();
             this.unexpanded.remove(n);
-            System.out.println(n.state.toString() + " " + n.getCost() + " " + n.getHeuristic());
             if (n.state.isGoal()) {
                 this.reportSolution(n, output);
+                return;
+            }
+            if (n.getCost() > 100) {
+                output.println("No solution found");
                 return;
             }
             this.expanded.add(n);
@@ -78,15 +87,19 @@ public class Solver {
      *
      * @param output - where output should be directed
      */
+    // Code from AI ASSIGNMENT
     public void AStarSolve(final PrintWriter output) {
         int heuristic;
         this.unexpanded.add(this.rootNode);
         while (!this.unexpanded.isEmpty()) {
             Node n = this.getLowest();
             this.unexpanded.remove(n);
-            System.out.println(n.state.toString() + " " + n.getCost() + " " + n.getHeuristic());
             if (n.state.isGoal()) {
                 this.reportSolution(n, output);
+                return;
+            }
+            if (n.getCost() > 100) {
+                output.println("No solution found");
                 return;
             }
             this.expanded.add(n);
@@ -112,6 +125,10 @@ public class Solver {
                 this.reportSolution(n, output);
                 return;
             }
+            if (n.getCost() > 100) {
+                output.println("No solution found");
+                return;
+            }
             this.expanded.add(n);
             ArrayList<GameState> moveList = n.state.possibleMoves();
             for (GameState gs : moveList) {
@@ -131,6 +148,10 @@ public class Solver {
             this.unexpanded.remove(n);
             if (n.state.isGoal()) {
                 this.reportSolution(n, output);
+                return;
+            }
+            if (n.getCost() > 100) {
+                output.println("No solution found");
                 return;
             }
             this.expanded.add(n);
@@ -157,6 +178,43 @@ public class Solver {
                 this.reportSolution(n, output);
                 return;
             }
+            if (n.getCost() > 100) {
+                output.println("No solution found");
+                return;
+            }
+            this.expanded.add(n);
+            ArrayList<GameState> moveList = n.state.possibleMoves();
+            for (GameState gs : moveList) {
+                if ((Node.findNodeWithState(this.unexpanded, gs) == null) && (Node.findNodeWithState(this.expanded, gs) == null)) {
+                    Node newNode = new Node(gs, n, n.getCost() + 1, 0);
+                    this.unexpanded.add(newNode);
+                }
+            }
+        }
+        output.println("No solution found");
+    }
+
+    public void IterativeDeepening(PrintWriter output) {
+        this.unexpanded.add(this.rootNode);
+        int limit = 10;
+        int depth = 0;
+        while (!this.unexpanded.isEmpty() && limit >= depth) {
+            ++depth;
+            if (depth == limit) {
+                limit += 5;
+                Collections.reverse(this.unexpanded);
+                continue;
+            }
+            Node n = this.unexpanded.get(this.unexpanded.size() - 1);
+            this.unexpanded.remove(n);
+            if (n.state.isGoal()) {
+                this.reportSolution(n, output);
+                return;
+            }
+            if (n.getCost() > 100) {
+                output.println("No solution found");
+                return;
+            }
             this.expanded.add(n);
             ArrayList<GameState> moveList = n.state.possibleMoves();
             for (GameState gs : moveList) {
@@ -172,11 +230,16 @@ public class Solver {
     public void GreedySearch(final PrintWriter output) {
         int heuristic;
         this.unexpanded.add(this.rootNode);
+        int depth = 0;
         while (!this.unexpanded.isEmpty()) {
             Node n = this.getLowest();
             this.unexpanded.remove(n);
             if (n.state.isGoal()) {
                 this.reportSolution(n, output);
+                return;
+            }
+            if (depth++ > 100) {
+                output.println("No solution found");
                 return;
             }
             this.expanded.add(n);
@@ -199,12 +262,13 @@ public class Solver {
      *
      * @param n      - goal state node.
      * @param output - out stream.
-     */
+     */    // Code from AI ASSIGNMENT
     public static void printSolution(final Node n, final PrintWriter output) {
         if (n.parent != null) {
             printSolution(n.parent, output);
         }
-        output.println(n.state + " " + n.getCost() + " " + n.getHeuristic());
+        System.out.println(n.state + " cost: " + n.getCost() + " heuristic:" + n.getHeuristic());
+        output.println(n.state + " cost: " + n.getCost() + " heuristic:" + n.getHeuristic());
     }
 
     /**
@@ -213,6 +277,7 @@ public class Solver {
      * @param n      - goal state node.
      * @param output - out stream.
      */
+    // Code from AI ASSIGNMENT
     public void reportSolution(final Node n, final PrintWriter output) {
         output.println("Solution found!");
         Solver.printSolution(n, output);
@@ -227,16 +292,18 @@ public class Solver {
         Solver problem;
         File outFile;
         PrintWriter output;
+        System.out.println("1)Dijkstra's Algorithm \n2)A* Search \n3)Breath First Search \n4)Depth First Search \n5)Greedy Search \n6)Depth Limited Search \n7)Iterative Deepening");
         Scanner scan = new Scanner(System.in);
         int choice = scan.nextInt();
-        choice = choice > 7 || choice < 1 ? -1 : choice;
-        int[][] initialConfig = new int[][]{{1, 2}, {3, 4}, {0, 5}};
+        choice = choice > 8 || choice < 1 ? -1 : choice;
+        int[][] initialConfig = new int[][]{{1, 2, 3, 4, 5}, {0, 6, 7, 8, 9}, {11, 12, 13, 14, 10}};
+
 
         switch (choice) {
             case -1:
                 System.out.println("Invalid command!");
                 System.exit(-1);
-            case 2: // Dijkstra's case
+            case 1: // Dijkstra's case
                 long startTime = System.nanoTime();
                 problem = new Solver(initialConfig);
                 outFile = new File("outputUniCost.txt");
@@ -247,7 +314,7 @@ public class Solver {
                 long duration = (endTime - startTime) / 1000000;
                 System.out.println(duration + " ms");
                 break;
-            case 3: // Astar case
+            case 2: // Astar case
                 startTime = System.nanoTime();
                 problem = new Solver(initialConfig);
                 outFile = new File("outputAstar.txt");
@@ -258,7 +325,7 @@ public class Solver {
                 duration = (endTime - startTime) / 1000000;
                 System.out.println(duration + " ms");
                 break;
-            case 4:
+            case 3:// bfs
                 startTime = System.nanoTime();
                 problem = new Solver(initialConfig);
                 outFile = new File("outputBFS.txt");
@@ -269,7 +336,7 @@ public class Solver {
                 duration = (endTime - startTime) / 1000000;
                 System.out.println(duration + " ms");
                 break;
-            case 5:
+            case 4: //dfs
                 startTime = System.nanoTime();
                 problem = new Solver(initialConfig);
                 outFile = new File("outputDFS.txt");
@@ -280,7 +347,7 @@ public class Solver {
                 duration = (endTime - startTime) / 1000000;
                 System.out.println(duration + " ms");
                 break;
-            case 6:
+            case 5: //greedy
                 startTime = System.nanoTime();
                 problem = new Solver(initialConfig);
                 outFile = new File("outputGreedy.txt");
@@ -291,16 +358,29 @@ public class Solver {
                 duration = (endTime - startTime) / 1000000;
                 System.out.println(duration + " ms");
                 break;
-            case 7:
+            case 6: //depth limited
                 startTime = System.nanoTime();
                 problem = new Solver(initialConfig);
                 outFile = new File("outputDepthLimited.txt");
                 output = new PrintWriter(outFile);
-                problem.GreedySearch(output);
+                problem.DepthLimitedSearch(output);
                 output.close();
                 endTime = System.nanoTime();
                 duration = (endTime - startTime) / 1000000;
                 System.out.println(duration + " ms");
+                break;
+            case 7: //iterative deepening
+                startTime = System.nanoTime();
+                problem = new Solver(initialConfig);
+                outFile = new File("outputIterativeDeepening.txt");
+                output = new PrintWriter(outFile);
+                problem.IterativeDeepening(output);
+                output.close();
+                endTime = System.nanoTime();
+                duration = (endTime - startTime) / 1000000;
+                System.out.println(duration + " ms");
+                break;
+            default:
                 break;
         }
     }
