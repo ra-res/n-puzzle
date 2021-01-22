@@ -7,10 +7,7 @@ import java.util.ArrayList;
  * Its essential features are a GameState and a reference to the node's parent node. The
  * latter is used to assemble and output the solution path once the goal sate has been reached.
  */
-
 public class Node {
-    // Code from AI ASSIGNMENT
-
     GameState state;
     Node parent;
     private int cost;
@@ -25,7 +22,6 @@ public class Node {
      * @param cost      - The cost of reaching this node from the initial node.
      * @param heuristic - The heuristic value associated with the state. If algorithm is uniform cost, this will be 0
      */
-    // Code from AI ASSIGNMENT
     public Node(GameState state, Node parent, int cost, int heuristic) {
         this.state = state;
         this.parent = parent;
@@ -39,7 +35,6 @@ public class Node {
      *
      * @param state - initial state associated with root node
      */
-    // Code from AI ASSIGNMENT
     public Node(GameState state) {
         this(state, null, 0, 0);
     }
@@ -49,7 +44,6 @@ public class Node {
      *
      * @return cost variable
      */
-    // Code from AI ASSIGNMENT
     public int getCost() {
         return this.cost;
     }
@@ -59,7 +53,6 @@ public class Node {
      *
      * @return heuristic variable
      */
-    // Code from AI ASSIGNMENT
     public int getHeuristic() {
         return this.heuristic;
     }
@@ -69,7 +62,6 @@ public class Node {
      *
      * @return new Node with same values as current node
      */
-    // Code from AI ASSIGNMENT
     public Node cloneNode() {
         return new Node(this.state, this.parent, this.cost, this.heuristic);
     }
@@ -79,7 +71,6 @@ public class Node {
      *
      * @return string object representing the state associated with node
      */
-    // Code from AI ASSIGNMENT
     @Override
     public String toString() {
         return "Node:" + this.state + " ";
@@ -94,7 +85,6 @@ public class Node {
      * @param gs
      * @return n if node found, else null
      */
-    // Code from AI ASSIGNMENT
     public static Node findNodeWithState(ArrayList<Node> nodeList, GameState gs) {
         for (Node n : nodeList) {
             if (gs.sameBoard(n.state)) {

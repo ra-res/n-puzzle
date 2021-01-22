@@ -12,7 +12,6 @@ import java.util.Scanner;
  * plus the data structures needed for the search.
  */
 public class Solver {
-    // Code from AI ASSIGNMENT
     ArrayList<Node> unexpanded = new ArrayList<>();
     ArrayList<Node> expanded = new ArrayList<>();
     Node rootNode;
@@ -24,7 +23,6 @@ public class Solver {
      *
      * @param initialBoard
      */
-    // Code from AI ASSIGNMENT
     public Solver(int[][] initialBoard) {
         GameState initialState = new GameState(initialBoard);
         this.rootNode = new Node(initialState);
@@ -38,7 +36,6 @@ public class Solver {
      * so adding it won't change the outcome.
      * Method can be used for both uniform cost search and a* search
      */
-    // Code from AI ASSIGNMENT
     public Node getLowest() {
         Node n = this.unexpanded.get(0);
         for (final Node node : this.unexpanded) {
@@ -55,7 +52,6 @@ public class Solver {
      *
      * @param output - where output should be directed
      */
-    // Code from AI ASSIGNMENT
     public void UniformCostSolve(final PrintWriter output) {
         this.unexpanded.add(this.rootNode);
         while (!this.unexpanded.isEmpty()) {
@@ -87,7 +83,6 @@ public class Solver {
      *
      * @param output - where output should be directed
      */
-    // Code from AI ASSIGNMENT
     public void AStarSolve(final PrintWriter output) {
         int heuristic;
         this.unexpanded.add(this.rootNode);
@@ -262,7 +257,7 @@ public class Solver {
      *
      * @param n      - goal state node.
      * @param output - out stream.
-     */    // Code from AI ASSIGNMENT
+     */ 
     public static void printSolution(final Node n, final PrintWriter output) {
         if (n.parent != null) {
             printSolution(n.parent, output);
@@ -277,7 +272,6 @@ public class Solver {
      * @param n      - goal state node.
      * @param output - out stream.
      */
-    // Code from AI ASSIGNMENT
     public void reportSolution(final Node n, final PrintWriter output) {
         output.println("Solution found!");
         Solver.printSolution(n, output);
@@ -297,7 +291,6 @@ public class Solver {
         int choice = scan.nextInt();
         choice = choice > 8 || choice < 1 ? -1 : choice;
         int[][] initialConfig = new int[][]{{1, 2, 3, 4, 5}, {0, 6, 7, 8, 9}, {11, 12, 13, 14, 10}};
-
 
         switch (choice) {
             case -1:

@@ -49,7 +49,7 @@ public class GameState {
      *
      * @return a new cloned GameState
      */
-    // Code from AI ASSIGNMENT
+
     @Override
     public GameState clone() {
         final int[][] clonedBoard = new int[this.board.length][this.board[0].length];
@@ -64,7 +64,7 @@ public class GameState {
      *
      * @return toString returns the board configuration of the current GameState as a printable string.
      */
-    // Code from AI ASSIGNMENT
+
     @Override
     public String toString() {
         return Arrays.deepToString(this.board);
@@ -75,7 +75,7 @@ public class GameState {
      *
      * @return true if and only if the board configuration of the current GameState is the goal configuration.
      */
-    // Code from AI ASSIGNMENT
+
     public boolean isGoal() {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
@@ -93,7 +93,6 @@ public class GameState {
      *
      * @return true if number of inversions is even, false if number of inversions is odd.
      */
-    // Code from AI ASSIGNMENT
     public boolean isSolvable() {
         int inversions = 0;
         for (int i = 0; i < this.board.length - 1; i++) {
@@ -113,7 +112,6 @@ public class GameState {
      * @param gs - GameState to compare this.board to gs.board
      * @return true if and only if the GameState supplied as argument has the same board
      */
-    // Code from AI ASSIGNMENT
     public boolean sameBoard(final GameState gs) {
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[i].length; j++) {
@@ -130,7 +128,6 @@ public class GameState {
      *
      * @return the board corresponding to the object
      */
-    // Code from AI ASSIGNMENT
     public int[][] getBoard() {
         return this.board;
     }
@@ -155,7 +152,6 @@ public class GameState {
      *
      * @return estimated distance to goal state
      */
-    // Code from AI ASSIGNMENT
     public int calculateHeuristic() {
         int distance = 0;
         for (int i = 0; i < this.board.length; i++) {
@@ -170,7 +166,6 @@ public class GameState {
         return distance;
     }
 
-    // Code from AI ASSIGNMENT
     public int differentHeuristic() {
         int distance = 0;
         for (int i = 0; i < this.board.length; i++) {
@@ -189,7 +184,6 @@ public class GameState {
      *
      * @return list of all GameStates that can be reached in a single move from the current GameState.
      */
-    // Code from AI ASSIGNMENT
     public ArrayList<GameState> possibleMoves() {
         final ArrayList<GameState> moves = new ArrayList<GameState>();
         final HashMap<String, Integer[]> potentialMoves = new HashMap<>();
